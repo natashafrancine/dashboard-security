@@ -1,0 +1,60 @@
+version: "3.8"
+
+services:
+  php:
+      build:
+          context: .
+          dockerfile: Dockerfile
+      container_name: PROTECTED-ROUTE
+      working_dir: /var/www/html
+      volumes:
+          - ./:/var/www/html
+      depends_on:
+          - mysql
+      networks:
+          - appnet
+
+  mysql:
+      image: mysql:8.0
+      container_name: protected-mysql-1
+      environment:
+          MYSQL_ROOT_PASSWORD: test-demo
+          MYSQL_DATABASE: test-demo-db
+          MYSQL_USER: test_demo_user
+          MYSQL_PASSWORD: test_demo
+      ports:
+          - "3306:3306"
+      command: --default-authentication-plugin=mysql_native_password
+      networks:
+          - appnet
+
+  phpmyadmin:
+      image: phpmyadmin/phpmyadmin
+      container_name: protected-phpmyadmin-1
+      environment:
+          PMA_HOST: mysql
+          PMA_USER: test_demo_user
+          PMA_PASSWORD: test_demo
+      ports:
+          - "8080:80"
+      depends_on:
+          - mysql
+      networks:
+          - appnet
+
+  nginx:
+      image: nginx:latest
+      container_name: protected-nginx-1
+      ports:
+          - "8081:80"
+      volumes:
+          - ./:/var/www/html
+          - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      depends_on:
+          - php
+      networks:
+          - appnet
+
+networks:
+  appnet:
+    driver: bridge
