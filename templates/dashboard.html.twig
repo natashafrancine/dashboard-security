@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Dashboard
+{% endblock %}
+
+{% block body %}
+  <div class="bg-white p-6 rounded shadow">
+    {% if is_granted('ROLE_ADMIN') %}
+      <p>You are logged in as Admin. You have full access.</p>
+    {% elseif is_granted('ROLE_USER') %}
+      <p>You are logged in as Regular User. Limited access granted.</p>
+    {% endif %}
+  </div>
+{% endblock %}

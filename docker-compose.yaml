@@ -5,7 +5,7 @@ services:
       build:
           context: .
           dockerfile: Dockerfile
-      container_name: PROTECTED-ROUTE
+      container_name: PROTECTED-ROUTER
       working_dir: /var/www/html
       volumes:
           - ./:/var/www/html
@@ -16,7 +16,7 @@ services:
 
   mysql:
       image: mysql:8.0
-      container_name: protected-mysql-1
+      container_name: protected-mysql-2
       environment:
           MYSQL_ROOT_PASSWORD: test-demo
           MYSQL_DATABASE: test-demo-db
@@ -30,7 +30,7 @@ services:
 
   phpmyadmin:
       image: phpmyadmin/phpmyadmin
-      container_name: protected-phpmyadmin-1
+      container_name: protected-phpmyadmin-2
       environment:
           PMA_HOST: mysql
           PMA_USER: test_demo_user
@@ -44,7 +44,7 @@ services:
 
   nginx:
       image: nginx:latest
-      container_name: protected-nginx-1
+      container_name: protected-nginx-2
       ports:
           - "8081:80"
       volumes:

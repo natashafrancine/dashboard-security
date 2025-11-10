@@ -1,42 +1,22 @@
-# # config/packages/security.yaml
-# security:
-#     providers:
-#         in_memory:
-#             memory:
-#                 users:
-#                     demo:
-#                         password: demo123
-#                         roles: ["ROLE_USER"]
-
-#     password_hashers:
-#         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: "plaintext"
-
-#     firewalls:
-#         dev:
-#             pattern: ^/(_(profiler|wdt)|css|images|js)/
-#             security: false
-
-#         main:
-#             lazy: true
-#             provider: in_memory
-#             http_basic: ~
-
-#     access_control:
-#         - { path: ^/dashboard, roles: ROLE_USER }
-
 security:
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: "auto"
+
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_USER]
+
     providers:
         in_memory:
             memory:
                 users:
-                    guest:
-                        password: guest123
-                        roles: ["ROLE_GUEST"]
-                    demo:
-                        password: demo123
+                    admin:
+                        # password = admin123
+                        password: "$2y$13$ipmCJAzt6yo9xmGQcVmek.7zmSuuSaxiu/Yh3EuHu47I2gFk0Xl7C"
+                        roles: ["ROLE_ADMIN"]
+                    user:
+                        # password = user123
+                        password: "$2y$13$q8SzansSj5UrYCNXsRKMT.KXN4hbC3T6AO8hfey8AmQ5nSttKmGji"
                         roles: ["ROLE_USER"]
-    password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: "plaintext"
 
     firewalls:
         dev:
